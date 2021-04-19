@@ -7,7 +7,7 @@ namespace GestionHotelsAvecWebServicesRest.Models
 {
     public class Adresse
     {
-        private int identifiant;
+        private int id;
         private int numero;
         private string rue;
         private string pays;
@@ -17,9 +17,9 @@ namespace GestionHotelsAvecWebServicesRest.Models
         {
         }
 
-        public Adresse(int identifiant, int numero, string rue, string pays, string positionGPS, string lieuDit)
+        public Adresse(int id, int numero, string rue, string pays, string positionGPS, string lieuDit)
         {
-            this.identifiant = identifiant;
+            this.id = id;
             this.numero = numero;
             this.rue = rue;
             this.pays = pays;
@@ -27,7 +27,7 @@ namespace GestionHotelsAvecWebServicesRest.Models
             this.lieuDit = lieuDit;
         }
 
-        public int Identifiant { get => identifiant; set => identifiant = value; }
+        public int AdresseId { get => id; set => id = value; }
         public int Numero { get => numero; set => numero = value; }
         public string Rue { get => rue; set => rue = value; }
         public string Pays { get => pays; set => pays = value; }
@@ -35,4 +35,4 @@ namespace GestionHotelsAvecWebServicesRest.Models
         public string LieuDit { get => lieuDit; set => lieuDit = value; }
     }
 }
-}
+

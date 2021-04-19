@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,21 +13,21 @@ namespace GestionHotelsAvecWebServicesRest.Models
         private int nbEtoile;
         private Adresse adresse;
         private List<Chambre> chambres;
-        private List<Agence> agences;
+        private List<AgencesHotels> agencesHotel;
 
         public Hotel()
         {
             chambres = new List<Chambre>();
-            agences = new List<Agence>();
+            agencesHotel = new List<AgencesHotels>();
         }
-        public Hotel(int identifiant, string nom, int nbEtoile, Adresse adresse, List<Chambre> chambres, List<Agence> agences)
+        public Hotel(int identifiant, string nom, int nbEtoile, Adresse adresse, List<Chambre> chambres, List<AgencesHotels> agencesHotel)
         {
             this.identifiant = identifiant;
             this.nom = nom;
             this.nbEtoile = nbEtoile;
             this.adresse = adresse;
             this.chambres = chambres;
-            this.agences = agences;
+            this.agencesHotel = agencesHotel;
         }
         public Hotel(int identifiant, string nom, int nbEtoile, Adresse adresse)
         {
@@ -35,14 +36,15 @@ namespace GestionHotelsAvecWebServicesRest.Models
             this.nbEtoile = nbEtoile;
             this.adresse = adresse;
             chambres = new List<Chambre>();
-            agences = new List<Agence>();
+            agencesHotel = new List<AgencesHotels>();
 
         }
-        public int Identifiant { get => identifiant; set => identifiant = value; }
+        public int HotelId { get => identifiant; set => identifiant = value; }
         private string Nom { get => nom; set => nom = value; }
         private int NbEtoile { get => nbEtoile; set => nbEtoile = value; }
+        [ForeignKey("AdresseId")]
         public Adresse Adresse { get => adresse; set => adresse = value; }
         public List<Chambre> Chambres { get => chambres; set => chambres = value; }
-        public List<Agence> Agences { get => agences; set => agences = value; }
+        public List<AgencesHotels> AgencesHotel { get => agencesHotel; set => agencesHotel = value; }
     }
 }

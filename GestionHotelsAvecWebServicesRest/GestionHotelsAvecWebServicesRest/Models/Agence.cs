@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,15 +14,14 @@ namespace GestionHotelsAvecWebServicesRest.Models
         private string motDePAsse;
         private double pourcentageReduction;
         private Adresse adresse;
-        private List<Reservation> historiqueReservations;
-        private List<Client> clients;
+        private List<Reservation> reservations = new List<Reservation>();
+        private List<Client> clients = new List<Client>();
+        private List<AgencesHotels> hotelsAgence = new List<AgencesHotels>();
         public Agence()
         {
-            historiqueReservations = new List<Reservation>();
-            clients = new List<Client>();
         }
 
-        public Agence(int identifiant, string nom, string login, string motDePAsse, double pourcentageReduction, Adresse adresse,/* List<Hotel> hotels,*/ List<Reservation> historiqueReservations, List<Client> clients)
+        public Agence(int identifiant, string nom, string login, string motDePAsse, double pourcentageReduction, Adresse adresse,List<AgencesHotels> hotelsAgence, List<Reservation> historiqueReservations, List<Client> clients)
         {
             this.identifiant = identifiant;
             this.nom = nom;
@@ -29,28 +29,22 @@ namespace GestionHotelsAvecWebServicesRest.Models
             this.motDePAsse = motDePAsse;
             this.pourcentageReduction = pourcentageReduction;
             this.adresse = adresse;
-            this.historiqueReservations = historiqueReservations;
+            this.reservations = historiqueReservations;
             this.clients = clients;
+            this.hotelsAgence = hotelsAgence;
         }
 
-        public Agence(int identifiant, string nom, string login, string motDePAsse, double pourcentageReduction, Adresse adresse)
-        {
-            this.identifiant = identifiant;
-            this.nom = nom;
-            this.login = login;
-            this.motDePAsse = motDePAsse;
-            this.pourcentageReduction = pourcentageReduction;
-            this.adresse = adresse;
-        }
 
-        public int Identifiant { get => identifiant; set => identifiant = value; }
+        public int AgenceId { get => identifiant; set => identifiant = value; }
         public string Nom { get => nom; set => nom = value; }
         public string Login { get => login; set => login = value; }
         public string MotDePAsse { get => motDePAsse; set => motDePAsse = value; }
         public double PourcentageReduction { get => pourcentageReduction; set => pourcentageReduction = value; }
+        [ForeignKey("AdresseId")]
         public Adresse Adresse { get => adresse; set => adresse = value; }
-        public List<Reservation> HistoriqueReservations { get => historiqueReservations; set => historiqueReservations = value; }
+        public List<Reservation> Reservations { get => reservations; set => reservations = value; }
         public List<Client> Clients { get => clients; set => clients = value; }
+        public List<AgencesHotels> HotelsAgence { get => hotelsAgence; set => hotelsAgence = value; }
     }
 }
 

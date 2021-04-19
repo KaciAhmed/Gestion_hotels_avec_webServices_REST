@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,13 +17,15 @@ namespace GestionHotelsAvecWebServicesRest.Models
         private string urlImage;
         private byte[] image;
         private TypeChambre typeChambre;
+        private Hotel hotel;
+        private List<Reservation> reservations = new List<Reservation>();
 
         public Chambre()
         {
 
         }
 
-        public Chambre(int identifiant, int numero, string dateDisponibilite, float prixDeBase, bool estLibre, TypeChambre typeChambre, string urlImage)
+        public Chambre(int identifiant, int numero, string dateDisponibilite, TypeChambre typeChambre, float prixDeBase, bool estLibre, string urlImage,Hotel hotel)
         {
 
             this.identifiant = identifiant;
@@ -32,29 +36,25 @@ namespace GestionHotelsAvecWebServicesRest.Models
             this.typeChambre = typeChambre;
             this.urlImage = urlImage;
             image = StreamToByteArray(urlImage);
-        }
-        public Chambre(int identifiant, int numero, string dateDisponibilite, TypeChambre typeChambre, float prixDeBase, bool estLibre, string urlImage)
-        {
-
-            this.identifiant = identifiant;
-            this.numero = numero;
-            this.dateDisponibilite = dateDisponibilite;
-            this.estLibre = estLibre;
-            this.prixDeBase = prixDeBase;
-            this.typeChambre = typeChambre;
-            this.urlImage = urlImage;
-            image = StreamToByteArray(urlImage);
+            this.hotel = hotel;
         }
 
-        public int Identifiant { get => identifiant; set => identifiant = value; }
+        public int ChambreId { get => identifiant; set => identifiant = value; }
         public int Numero { get => numero; set => numero = value; }
         public bool EstLibre { get => estLibre; set => estLibre = value; }
         public string DateDisponibilite { get => dateDisponibilite; set => dateDisponibilite = value; }
         public float PrixDeBase { get => prixDeBase; set => prixDeBase = value; }
+        [ForeignKey("TypeChambreId")]
         public TypeChambre TypeChambre { get => typeChambre; set => typeChambre = value; }
 
         public string UrlImage { get => urlImage; set => urlImage = value; }
         public byte[] Image { get => image; set => image = value; }
+
+        [ForeignKey("HotelId")]
+        public Hotel Hotel { get => hotel; set => hotel = value; }
+        public List<Reservation> Reservations { get => reservations; set => reservations = value; }
+
+
         public byte[] StreamToByteArray(string fileName)
         {
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,27 +34,18 @@ namespace GestionHotelsAvecWebServicesRest.Models
             this.agence = agence;
             this.chambre = chambre;
         }
-        public Reservation(string reference, Chambre chambre, string dateDebut, string dateFin, int nbPersonne, string informationCarteCredit, Client client, Agence agence)
-        {
-            this.reference = reference;
-            this.chambre = chambre;
-            this.dateDebut = dateDebut;
-            this.dateFin = dateFin;
-            this.nbPersonne = nbPersonne;
-            this.informationCarteCredit = informationCarteCredit;
-            this.client = client;
-            this.agence = agence;
 
-        }
-
-        public int Identifiant { get => identifiant; set => identifiant = value; }
+        public int ReservationId { get => identifiant; set => identifiant = value; }
         public string Reference { get => reference; set => reference = value; }
         public string DateDebut { get => dateDebut; set => dateDebut = value; }
         public string DateFin { get => dateFin; set => dateFin = value; }
         public int NbPersonne { get => nbPersonne; set => nbPersonne = value; }
         public string InformationCarteCredit { get => informationCarteCredit; set => informationCarteCredit = value; }
+        [ForeignKey("ClientId")]
         public Client Client { get => client; set => client = value; }
+        [ForeignKey("AgenceId")]
         public Agence Agence { get => agence; set => agence = value; }
+        [ForeignKey("ChambreId")]
         public Chambre Chambre { get => chambre; set => chambre = value; }
     }
 }
