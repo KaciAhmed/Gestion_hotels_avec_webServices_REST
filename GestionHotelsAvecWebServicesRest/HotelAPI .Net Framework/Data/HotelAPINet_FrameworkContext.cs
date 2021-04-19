@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
@@ -19,7 +20,6 @@ namespace HotelAPI.Net_Framework.Data
         public HotelAPINet_FrameworkContext() : base("name=HotelAPINet_FrameworkContext")
         {
         }
-
         public DbSet<TypeChambre> TypeChambres { get; set; }
 
         public DbSet<Adresse> Adresses { get; set; }

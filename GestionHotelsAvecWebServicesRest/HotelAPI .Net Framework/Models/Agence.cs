@@ -12,9 +12,10 @@ namespace GestionHotelsAvecWebServicesRest.Models
         public int AgenceId { get; set; }
         public string Nom { get; set; }
         public string Login { get; set; }
-        public string MotDePAsse { get; set; }
+        public string MotDePasse { get; set; }
         public double PourcentageReduction { get; set; }
         public int AdresseId { get; set; }
+        [ForeignKey("AdresseId")]
         public virtual Adresse Adresse { get; set; }
         public virtual List<Reservation> Reservations { get; set; }
         public virtual List<Client> Clients { get; set; }
