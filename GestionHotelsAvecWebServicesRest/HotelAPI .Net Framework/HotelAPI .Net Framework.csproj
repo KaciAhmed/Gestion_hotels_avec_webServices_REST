@@ -91,26 +91,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AdressesController.cs" />
-    <Compile Include="Controllers\AgencesController.cs" />
-    <Compile Include="Controllers\AgencesHotelsController.cs" />
-    <Compile Include="Controllers\ChambresController.cs" />
-    <Compile Include="Controllers\ClientsController.cs" />
-    <Compile Include="Controllers\HotelsController.cs" />
-    <Compile Include="Controllers\ReservationsController.cs" />
-    <Compile Include="Controllers\TypeChambresController.cs" />
+    <Compile Include="Controller\AdressesController.cs" />
+    <Compile Include="Controller\AgencesController.cs" />
+    <Compile Include="Controller\ChambresController.cs" />
+    <Compile Include="Controller\ClientsController.cs" />
+    <Compile Include="Controller\HotelsController.cs" />
+    <Compile Include="Controller\ReservationsController.cs" />
+    <Compile Include="Controller\TypeChambresController.cs" />
     <Compile Include="Data\HotelAPINet_FrameworkContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104192209478_Initial.cs" />
-    <Compile Include="Migrations\202104192209478_Initial.Designer.cs">
-      <DependentUpon>202104192209478_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\202104200032258_HotelBDD.cs" />
+    <Compile Include="Migrations\202104200032258_HotelBDD.Designer.cs">
+      <DependentUpon>202104200032258_HotelBDD.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adresse.cs" />
     <Compile Include="Models\Agence.cs" />
-    <Compile Include="Models\AgencesHotels.cs" />
     <Compile Include="Models\Chambre.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Hotel.cs" />
@@ -131,8 +129,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202104192209478_Initial.resx">
-      <DependentUpon>202104192209478_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104200032258_HotelBDD.resx">
+      <DependentUpon>202104200032258_HotelBDD.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -12,46 +12,46 @@ using System.Web.Http.Description;
 using GestionHotelsAvecWebServicesRest.Models;
 using HotelAPI.Net_Framework.Data;
 
-namespace HotelAPI.Net_Framework.Controllers
+namespace HotelAPI.Net_Framework.Controller
 {
-    public class ChambresController : ApiController
+    public class AgencesController : ApiController
     {
         private HotelAPINet_FrameworkContext db = new HotelAPINet_FrameworkContext();
 
-        // GET: api/Chambres
-        public IQueryable<Chambre> GetChambres()
+        // GET: api/Agences
+        public IQueryable<Agence> GetAgences()
         {
-            return db.Chambres;
+            return db.Agences;
         }
 
-        // GET: api/Chambres/5
-        [ResponseType(typeof(Chambre))]
-        public async Task<IHttpActionResult> GetChambre(int id)
+        // GET: api/Agences/5
+        [ResponseType(typeof(Agence))]
+        public async Task<IHttpActionResult> GetAgence(int id)
         {
-            Chambre chambre = await db.Chambres.FindAsync(id);
-            if (chambre == null)
+            Agence agence = await db.Agences.FindAsync(id);
+            if (agence == null)
             {
                 return NotFound();
             }
 
-            return Ok(chambre);
+            return Ok(agence);
         }
 
-        // PUT: api/Chambres/5
+        // PUT: api/Agences/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutChambre(int id, Chambre chambre)
+        public async Task<IHttpActionResult> PutAgence(int id, Agence agence)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != chambre.ChambreId)
+            if (id != agence.AgenceId)
             {
                 return BadRequest();
             }
 
-            db.Entry(chambre).State = EntityState.Modified;
+            db.Entry(agence).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace HotelAPI.Net_Framework.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ChambreExists(id))
+                if (!AgenceExists(id))
                 {
                     return NotFound();
                 }
@@ -72,35 +72,35 @@ namespace HotelAPI.Net_Framework.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Chambres
-        [ResponseType(typeof(Chambre))]
-        public async Task<IHttpActionResult> PostChambre(Chambre chambre)
+        // POST: api/Agences
+        [ResponseType(typeof(Agence))]
+        public async Task<IHttpActionResult> PostAgence(Agence agence)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Chambres.Add(chambre);
+            db.Agences.Add(agence);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = chambre.ChambreId }, chambre);
+            return CreatedAtRoute("DefaultApi", new { id = agence.AgenceId }, agence);
         }
 
-        // DELETE: api/Chambres/5
-        [ResponseType(typeof(Chambre))]
-        public async Task<IHttpActionResult> DeleteChambre(int id)
+        // DELETE: api/Agences/5
+        [ResponseType(typeof(Agence))]
+        public async Task<IHttpActionResult> DeleteAgence(int id)
         {
-            Chambre chambre = await db.Chambres.FindAsync(id);
-            if (chambre == null)
+            Agence agence = await db.Agences.FindAsync(id);
+            if (agence == null)
             {
                 return NotFound();
             }
 
-            db.Chambres.Remove(chambre);
+            db.Agences.Remove(agence);
             await db.SaveChangesAsync();
 
-            return Ok(chambre);
+            return Ok(agence);
         }
 
         protected override void Dispose(bool disposing)
@@ -112,9 +112,9 @@ namespace HotelAPI.Net_Framework.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ChambreExists(int id)
+        private bool AgenceExists(int id)
         {
-            return db.Chambres.Count(e => e.ChambreId == id) > 0;
+            return db.Agences.Count(e => e.AgenceId == id) > 0;
         }
     }
 }

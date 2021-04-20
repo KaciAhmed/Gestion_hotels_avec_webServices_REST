@@ -15,6 +15,13 @@ namespace GestionHotelsAvecWebServicesRest.Models
         public string Pays { get; set; }
         public string PositionGPS { get; set; }
         public string LieuDit { get; set; }
+        public ICollection<Hotel> Hotels { get; set; }
+        public ICollection<Agence> Agences { get; set; }
+        public Adresse()
+        {
+            this.Hotels = new List<Hotel>();
+            this.Agences = new List<Agence>();
+        }
     }
 }
 

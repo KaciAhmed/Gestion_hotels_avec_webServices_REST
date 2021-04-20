@@ -12,46 +12,46 @@ using System.Web.Http.Description;
 using GestionHotelsAvecWebServicesRest.Models;
 using HotelAPI.Net_Framework.Data;
 
-namespace HotelAPI.Net_Framework.Controllers
+namespace HotelAPI.Net_Framework.Controller
 {
-    public class ClientsController : ApiController
+    public class ChambresController : ApiController
     {
         private HotelAPINet_FrameworkContext db = new HotelAPINet_FrameworkContext();
 
-        // GET: api/Clients
-        public IQueryable<Client> GetClients()
+        // GET: api/Chambres
+        public IQueryable<Chambre> GetChambres()
         {
-            return db.Clients;
+            return db.Chambres;
         }
 
-        // GET: api/Clients/5
-        [ResponseType(typeof(Client))]
-        public async Task<IHttpActionResult> GetClient(int id)
+        // GET: api/Chambres/5
+        [ResponseType(typeof(Chambre))]
+        public async Task<IHttpActionResult> GetChambre(int id)
         {
-            Client client = await db.Clients.FindAsync(id);
-            if (client == null)
+            Chambre chambre = await db.Chambres.FindAsync(id);
+            if (chambre == null)
             {
                 return NotFound();
             }
 
-            return Ok(client);
+            return Ok(chambre);
         }
 
-        // PUT: api/Clients/5
+        // PUT: api/Chambres/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutClient(int id, Client client)
+        public async Task<IHttpActionResult> PutChambre(int id, Chambre chambre)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != client.ClientId)
+            if (id != chambre.ChambreId)
             {
                 return BadRequest();
             }
 
-            db.Entry(client).State = EntityState.Modified;
+            db.Entry(chambre).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace HotelAPI.Net_Framework.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ClientExists(id))
+                if (!ChambreExists(id))
                 {
                     return NotFound();
                 }
@@ -72,35 +72,35 @@ namespace HotelAPI.Net_Framework.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Clients
-        [ResponseType(typeof(Client))]
-        public async Task<IHttpActionResult> PostClient(Client client)
+        // POST: api/Chambres
+        [ResponseType(typeof(Chambre))]
+        public async Task<IHttpActionResult> PostChambre(Chambre chambre)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Clients.Add(client);
+            db.Chambres.Add(chambre);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = client.ClientId }, client);
+            return CreatedAtRoute("DefaultApi", new { id = chambre.ChambreId }, chambre);
         }
 
-        // DELETE: api/Clients/5
-        [ResponseType(typeof(Client))]
-        public async Task<IHttpActionResult> DeleteClient(int id)
+        // DELETE: api/Chambres/5
+        [ResponseType(typeof(Chambre))]
+        public async Task<IHttpActionResult> DeleteChambre(int id)
         {
-            Client client = await db.Clients.FindAsync(id);
-            if (client == null)
+            Chambre chambre = await db.Chambres.FindAsync(id);
+            if (chambre == null)
             {
                 return NotFound();
             }
 
-            db.Clients.Remove(client);
+            db.Chambres.Remove(chambre);
             await db.SaveChangesAsync();
 
-            return Ok(client);
+            return Ok(chambre);
         }
 
         protected override void Dispose(bool disposing)
@@ -112,9 +112,9 @@ namespace HotelAPI.Net_Framework.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ClientExists(int id)
+        private bool ChambreExists(int id)
         {
-            return db.Clients.Count(e => e.ClientId == id) > 0;
+            return db.Chambres.Count(e => e.ChambreId == id) > 0;
         }
     }
 }

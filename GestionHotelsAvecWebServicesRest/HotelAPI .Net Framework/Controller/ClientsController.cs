@@ -12,46 +12,46 @@ using System.Web.Http.Description;
 using GestionHotelsAvecWebServicesRest.Models;
 using HotelAPI.Net_Framework.Data;
 
-namespace HotelAPI.Net_Framework.Controllers
+namespace HotelAPI.Net_Framework.Controller
 {
-    public class ReservationsController : ApiController
+    public class ClientsController : ApiController
     {
         private HotelAPINet_FrameworkContext db = new HotelAPINet_FrameworkContext();
 
-        // GET: api/Reservations
-        public IQueryable<Reservation> GetReservations()
+        // GET: api/Clients
+        public IQueryable<Client> GetClients()
         {
-            return db.Reservations;
+            return db.Clients;
         }
 
-        // GET: api/Reservations/5
-        [ResponseType(typeof(Reservation))]
-        public async Task<IHttpActionResult> GetReservation(int id)
+        // GET: api/Clients/5
+        [ResponseType(typeof(Client))]
+        public async Task<IHttpActionResult> GetClient(int id)
         {
-            Reservation reservation = await db.Reservations.FindAsync(id);
-            if (reservation == null)
+            Client client = await db.Clients.FindAsync(id);
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return Ok(reservation);
+            return Ok(client);
         }
 
-        // PUT: api/Reservations/5
+        // PUT: api/Clients/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutReservation(int id, Reservation reservation)
+        public async Task<IHttpActionResult> PutClient(int id, Client client)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != reservation.ReservationId)
+            if (id != client.ClientId)
             {
                 return BadRequest();
             }
 
-            db.Entry(reservation).State = EntityState.Modified;
+            db.Entry(client).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace HotelAPI.Net_Framework.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ReservationExists(id))
+                if (!ClientExists(id))
                 {
                     return NotFound();
                 }
@@ -72,35 +72,35 @@ namespace HotelAPI.Net_Framework.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Reservations
-        [ResponseType(typeof(Reservation))]
-        public async Task<IHttpActionResult> PostReservation(Reservation reservation)
+        // POST: api/Clients
+        [ResponseType(typeof(Client))]
+        public async Task<IHttpActionResult> PostClient(Client client)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Reservations.Add(reservation);
+            db.Clients.Add(client);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = reservation.ReservationId }, reservation);
+            return CreatedAtRoute("DefaultApi", new { id = client.ClientId }, client);
         }
 
-        // DELETE: api/Reservations/5
-        [ResponseType(typeof(Reservation))]
-        public async Task<IHttpActionResult> DeleteReservation(int id)
+        // DELETE: api/Clients/5
+        [ResponseType(typeof(Client))]
+        public async Task<IHttpActionResult> DeleteClient(int id)
         {
-            Reservation reservation = await db.Reservations.FindAsync(id);
-            if (reservation == null)
+            Client client = await db.Clients.FindAsync(id);
+            if (client == null)
             {
                 return NotFound();
             }
 
-            db.Reservations.Remove(reservation);
+            db.Clients.Remove(client);
             await db.SaveChangesAsync();
 
-            return Ok(reservation);
+            return Ok(client);
         }
 
         protected override void Dispose(bool disposing)
@@ -112,9 +112,9 @@ namespace HotelAPI.Net_Framework.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ReservationExists(int id)
+        private bool ClientExists(int id)
         {
-            return db.Reservations.Count(e => e.ReservationId == id) > 0;
+            return db.Clients.Count(e => e.ClientId == id) > 0;
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using GestionHotelsAvecWebServicesRest.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
@@ -20,20 +18,19 @@ namespace HotelAPI.Net_Framework.Data
         public HotelAPINet_FrameworkContext() : base("name=HotelAPINet_FrameworkContext")
         {
         }
-        public DbSet<TypeChambre> TypeChambres { get; set; }
 
-        public DbSet<Adresse> Adresses { get; set; }
+        public System.Data.Entity.DbSet<GestionHotelsAvecWebServicesRest.Models.TypeChambre> TypeChambres { get; set; }
 
-        public DbSet<Chambre> Chambres { get; set; }
+        public System.Data.Entity.DbSet<GestionHotelsAvecWebServicesRest.Models.Reservation> Reservations { get; set; }
 
-        public DbSet<Hotel> Hotels { get; set; }
+        public System.Data.Entity.DbSet<GestionHotelsAvecWebServicesRest.Models.Agence> Agences { get; set; }
 
-        public DbSet<Agence> Agences { get; set; }
+        public System.Data.Entity.DbSet<GestionHotelsAvecWebServicesRest.Models.Chambre> Chambres { get; set; }
 
-        public DbSet<Client> Clients { get; set; }
+        public System.Data.Entity.DbSet<GestionHotelsAvecWebServicesRest.Models.Client> Clients { get; set; }
 
-        public DbSet<Reservation> Reservations { get; set; }
+        public System.Data.Entity.DbSet<GestionHotelsAvecWebServicesRest.Models.Hotel> Hotels { get; set; }
 
-        public DbSet<AgencesHotels> AgencesHotels { get; set; }
+        public System.Data.Entity.DbSet<GestionHotelsAvecWebServicesRest.Models.Adresse> Adresses { get; set; }
     }
 }

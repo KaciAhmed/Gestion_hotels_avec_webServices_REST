@@ -12,46 +12,46 @@ using System.Web.Http.Description;
 using GestionHotelsAvecWebServicesRest.Models;
 using HotelAPI.Net_Framework.Data;
 
-namespace HotelAPI.Net_Framework.Controllers
+namespace HotelAPI.Net_Framework.Controller
 {
-    public class HotelsController : ApiController
+    public class AdressesController : ApiController
     {
         private HotelAPINet_FrameworkContext db = new HotelAPINet_FrameworkContext();
 
-        // GET: api/Hotels
-        public IQueryable<Hotel> GetHotels()
+        // GET: api/Adresses
+        public IQueryable<Adresse> GetAdresses()
         {
-            return db.Hotels;
+            return db.Adresses;
         }
 
-        // GET: api/Hotels/5
-        [ResponseType(typeof(Hotel))]
-        public async Task<IHttpActionResult> GetHotel(int id)
+        // GET: api/Adresses/5
+        [ResponseType(typeof(Adresse))]
+        public async Task<IHttpActionResult> GetAdresse(int id)
         {
-            Hotel hotel = await db.Hotels.FindAsync(id);
-            if (hotel == null)
+            Adresse adresse = await db.Adresses.FindAsync(id);
+            if (adresse == null)
             {
                 return NotFound();
             }
 
-            return Ok(hotel);
+            return Ok(adresse);
         }
 
-        // PUT: api/Hotels/5
+        // PUT: api/Adresses/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutHotel(int id, Hotel hotel)
+        public async Task<IHttpActionResult> PutAdresse(int id, Adresse adresse)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != hotel.HotelId)
+            if (id != adresse.AdresseId)
             {
                 return BadRequest();
             }
 
-            db.Entry(hotel).State = EntityState.Modified;
+            db.Entry(adresse).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace HotelAPI.Net_Framework.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HotelExists(id))
+                if (!AdresseExists(id))
                 {
                     return NotFound();
                 }
@@ -72,35 +72,35 @@ namespace HotelAPI.Net_Framework.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Hotels
-        [ResponseType(typeof(Hotel))]
-        public async Task<IHttpActionResult> PostHotel(Hotel hotel)
+        // POST: api/Adresses
+        [ResponseType(typeof(Adresse))]
+        public async Task<IHttpActionResult> PostAdresse(Adresse adresse)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Hotels.Add(hotel);
+            db.Adresses.Add(adresse);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = hotel.HotelId }, hotel);
+            return CreatedAtRoute("DefaultApi", new { id = adresse.AdresseId }, adresse);
         }
 
-        // DELETE: api/Hotels/5
-        [ResponseType(typeof(Hotel))]
-        public async Task<IHttpActionResult> DeleteHotel(int id)
+        // DELETE: api/Adresses/5
+        [ResponseType(typeof(Adresse))]
+        public async Task<IHttpActionResult> DeleteAdresse(int id)
         {
-            Hotel hotel = await db.Hotels.FindAsync(id);
-            if (hotel == null)
+            Adresse adresse = await db.Adresses.FindAsync(id);
+            if (adresse == null)
             {
                 return NotFound();
             }
 
-            db.Hotels.Remove(hotel);
+            db.Adresses.Remove(adresse);
             await db.SaveChangesAsync();
 
-            return Ok(hotel);
+            return Ok(adresse);
         }
 
         protected override void Dispose(bool disposing)
@@ -112,9 +112,9 @@ namespace HotelAPI.Net_Framework.Controllers
             base.Dispose(disposing);
         }
 
-        private bool HotelExists(int id)
+        private bool AdresseExists(int id)
         {
-            return db.Hotels.Count(e => e.HotelId == id) > 0;
+            return db.Adresses.Count(e => e.AdresseId == id) > 0;
         }
     }
 }

@@ -9,19 +9,18 @@ namespace GestionHotelsAvecWebServicesRest.Models
 {
     public class Hotel
     {
+        [Key]
         public int HotelId { get; set; }
         public string Nom { get; set; }
         public int NbEtoile { get; set; }
-        public int? AdresseId { get; set; }
-        [ForeignKey("AdresseId")]
         public virtual Adresse Adresse { get ; set; }
         public virtual ICollection<Chambre> Chambres { get; set; }
-        public virtual ICollection<AgencesHotels> AgencesHotels { get ; set; }
+        public virtual ICollection<Agence> AgencesHotels { get ; set; }
 
         public Hotel()
         {
             this.Chambres = new List<Chambre>();
-            this.AgencesHotels = new List<AgencesHotels>();
+            this.AgencesHotels = new List<Agence>();
         }
     }
 }

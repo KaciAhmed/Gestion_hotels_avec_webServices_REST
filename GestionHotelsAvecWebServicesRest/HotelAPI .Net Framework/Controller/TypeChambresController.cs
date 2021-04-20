@@ -12,46 +12,46 @@ using System.Web.Http.Description;
 using GestionHotelsAvecWebServicesRest.Models;
 using HotelAPI.Net_Framework.Data;
 
-namespace HotelAPI.Net_Framework.Controllers
+namespace HotelAPI.Net_Framework.Controller
 {
-    public class AdressesController : ApiController
+    public class TypeChambresController : ApiController
     {
         private HotelAPINet_FrameworkContext db = new HotelAPINet_FrameworkContext();
 
-        // GET: api/Adresses
-        public IQueryable<Adresse> GetAdresses()
+        // GET: api/TypeChambres
+        public IQueryable<TypeChambre> GetTypeChambres()
         {
-            return db.Adresses;
+            return db.TypeChambres;
         }
 
-        // GET: api/Adresses/5
-        [ResponseType(typeof(Adresse))]
-        public async Task<IHttpActionResult> GetAdresse(int id)
+        // GET: api/TypeChambres/5
+        [ResponseType(typeof(TypeChambre))]
+        public async Task<IHttpActionResult> GetTypeChambre(int id)
         {
-            Adresse adresse = await db.Adresses.FindAsync(id);
-            if (adresse == null)
+            TypeChambre typeChambre = await db.TypeChambres.FindAsync(id);
+            if (typeChambre == null)
             {
                 return NotFound();
             }
 
-            return Ok(adresse);
+            return Ok(typeChambre);
         }
 
-        // PUT: api/Adresses/5
+        // PUT: api/TypeChambres/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutAdresse(int id, Adresse adresse)
+        public async Task<IHttpActionResult> PutTypeChambre(int id, TypeChambre typeChambre)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != adresse.AdresseId)
+            if (id != typeChambre.TypeChambreId)
             {
                 return BadRequest();
             }
 
-            db.Entry(adresse).State = EntityState.Modified;
+            db.Entry(typeChambre).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace HotelAPI.Net_Framework.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AdresseExists(id))
+                if (!TypeChambreExists(id))
                 {
                     return NotFound();
                 }
@@ -72,35 +72,35 @@ namespace HotelAPI.Net_Framework.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Adresses
-        [ResponseType(typeof(Adresse))]
-        public async Task<IHttpActionResult> PostAdresse(Adresse adresse)
+        // POST: api/TypeChambres
+        [ResponseType(typeof(TypeChambre))]
+        public async Task<IHttpActionResult> PostTypeChambre(TypeChambre typeChambre)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Adresses.Add(adresse);
+            db.TypeChambres.Add(typeChambre);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = adresse.AdresseId }, adresse);
+            return CreatedAtRoute("DefaultApi", new { id = typeChambre.TypeChambreId }, typeChambre);
         }
 
-        // DELETE: api/Adresses/5
-        [ResponseType(typeof(Adresse))]
-        public async Task<IHttpActionResult> DeleteAdresse(int id)
+        // DELETE: api/TypeChambres/5
+        [ResponseType(typeof(TypeChambre))]
+        public async Task<IHttpActionResult> DeleteTypeChambre(int id)
         {
-            Adresse adresse = await db.Adresses.FindAsync(id);
-            if (adresse == null)
+            TypeChambre typeChambre = await db.TypeChambres.FindAsync(id);
+            if (typeChambre == null)
             {
                 return NotFound();
             }
 
-            db.Adresses.Remove(adresse);
+            db.TypeChambres.Remove(typeChambre);
             await db.SaveChangesAsync();
 
-            return Ok(adresse);
+            return Ok(typeChambre);
         }
 
         protected override void Dispose(bool disposing)
@@ -112,9 +112,9 @@ namespace HotelAPI.Net_Framework.Controllers
             base.Dispose(disposing);
         }
 
-        private bool AdresseExists(int id)
+        private bool TypeChambreExists(int id)
         {
-            return db.Adresses.Count(e => e.AdresseId == id) > 0;
+            return db.TypeChambres.Count(e => e.TypeChambreId == id) > 0;
         }
     }
 }

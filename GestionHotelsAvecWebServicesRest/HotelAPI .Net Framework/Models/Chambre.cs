@@ -10,14 +10,13 @@ namespace GestionHotelsAvecWebServicesRest.Models
 {
     public class Chambre
     {
+        [Key]
         public int ChambreId { get; set; }
         public int Numero { get; set; }
         public bool EstLibre { get; set; }
         public string DateDisponibilite { get; set; }
         public float PrixDeBase { get; set; }
-        public int TypeChambreId { get; set; }
         public virtual TypeChambre TypeChambre { get; set; }
-        public int HotelId { get; set; }
         public virtual Hotel Hotel { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
         public string UrlImage { get; set; }

@@ -12,46 +12,46 @@ using System.Web.Http.Description;
 using GestionHotelsAvecWebServicesRest.Models;
 using HotelAPI.Net_Framework.Data;
 
-namespace HotelAPI.Net_Framework.Controllers
+namespace HotelAPI.Net_Framework.Controller
 {
-    public class TypeChambresController : ApiController
+    public class ReservationsController : ApiController
     {
         private HotelAPINet_FrameworkContext db = new HotelAPINet_FrameworkContext();
 
-        // GET: api/TypeChambres
-        public IQueryable<TypeChambre> GetTypeChambres()
+        // GET: api/Reservations
+        public IQueryable<Reservation> GetReservations()
         {
-            return db.TypeChambres;
+            return db.Reservations;
         }
 
-        // GET: api/TypeChambres/5
-        [ResponseType(typeof(TypeChambre))]
-        public async Task<IHttpActionResult> GetTypeChambre(int id)
+        // GET: api/Reservations/5
+        [ResponseType(typeof(Reservation))]
+        public async Task<IHttpActionResult> GetReservation(int id)
         {
-            TypeChambre typeChambre = await db.TypeChambres.FindAsync(id);
-            if (typeChambre == null)
+            Reservation reservation = await db.Reservations.FindAsync(id);
+            if (reservation == null)
             {
                 return NotFound();
             }
 
-            return Ok(typeChambre);
+            return Ok(reservation);
         }
 
-        // PUT: api/TypeChambres/5
+        // PUT: api/Reservations/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutTypeChambre(int id, TypeChambre typeChambre)
+        public async Task<IHttpActionResult> PutReservation(int id, Reservation reservation)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != typeChambre.TypeChambreId)
+            if (id != reservation.ReservationId)
             {
                 return BadRequest();
             }
 
-            db.Entry(typeChambre).State = EntityState.Modified;
+            db.Entry(reservation).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace HotelAPI.Net_Framework.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TypeChambreExists(id))
+                if (!ReservationExists(id))
                 {
                     return NotFound();
                 }
@@ -72,35 +72,35 @@ namespace HotelAPI.Net_Framework.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/TypeChambres
-        [ResponseType(typeof(TypeChambre))]
-        public async Task<IHttpActionResult> PostTypeChambre(TypeChambre typeChambre)
+        // POST: api/Reservations
+        [ResponseType(typeof(Reservation))]
+        public async Task<IHttpActionResult> PostReservation(Reservation reservation)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.TypeChambres.Add(typeChambre);
+            db.Reservations.Add(reservation);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = typeChambre.TypeChambreId }, typeChambre);
+            return CreatedAtRoute("DefaultApi", new { id = reservation.ReservationId }, reservation);
         }
 
-        // DELETE: api/TypeChambres/5
-        [ResponseType(typeof(TypeChambre))]
-        public async Task<IHttpActionResult> DeleteTypeChambre(int id)
+        // DELETE: api/Reservations/5
+        [ResponseType(typeof(Reservation))]
+        public async Task<IHttpActionResult> DeleteReservation(int id)
         {
-            TypeChambre typeChambre = await db.TypeChambres.FindAsync(id);
-            if (typeChambre == null)
+            Reservation reservation = await db.Reservations.FindAsync(id);
+            if (reservation == null)
             {
                 return NotFound();
             }
 
-            db.TypeChambres.Remove(typeChambre);
+            db.Reservations.Remove(reservation);
             await db.SaveChangesAsync();
 
-            return Ok(typeChambre);
+            return Ok(reservation);
         }
 
         protected override void Dispose(bool disposing)
@@ -112,9 +112,9 @@ namespace HotelAPI.Net_Framework.Controllers
             base.Dispose(disposing);
         }
 
-        private bool TypeChambreExists(int id)
+        private bool ReservationExists(int id)
         {
-            return db.TypeChambres.Count(e => e.TypeChambreId == id) > 0;
+            return db.Reservations.Count(e => e.ReservationId == id) > 0;
         }
     }
 }
