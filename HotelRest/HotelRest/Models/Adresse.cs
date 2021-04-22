@@ -8,7 +8,7 @@ namespace HotelRest.Models
 {
     public class Adresse
     {
-        [ForeignKey("Hotel, Agence")]
+        
         public int AdresseId { get; set; }
         public int Numero { get; set; }
         public string Rue { get; set; }
