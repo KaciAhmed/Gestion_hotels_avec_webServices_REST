@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -130,6 +131,17 @@ namespace HotelRest.Controllers
         private bool HotelExists(int id)
         {
             return db.Hotels.Count(e => e.HotelId == id) > 0;
+        }
+
+
+        // GET: api/Hotels/Offres/{login}/{password}/{}
+        // [Route("api/YOURCONTROLLER/{paramOne}/{paramTwo}")]
+        [Route("api/Hotels/Offres/{login}/{password}/{datDebut}/{dateFin}/{nbPersonne}")]
+        public IList GetOffres()
+        {
+           // IList offres = new List<Offre>();
+
+           
         }
     }
 }

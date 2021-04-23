@@ -114,6 +114,7 @@
     <Compile Include="Models\Hotel.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\TypeChambre.cs" />
+    <Compile Include="Offre.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
