@@ -1,5 +1,5 @@
 ﻿
-namespace Agence1
+namespace Comparateur
 {
     partial class Form1
     {

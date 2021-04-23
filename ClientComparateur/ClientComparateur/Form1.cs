@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Agence1
+namespace Comparateur
 {
     public partial class Form1 : Form
     {
@@ -27,7 +27,7 @@ namespace Agence1
         private void b_submit_Click(object sender, EventArgs e)
         {
             ClientRest clientRest = new ClientRest();
-            agences.Add("Agence1");
+            agences.Add("Comparateur");
             agences.Add("Agence2");
             agences.Add("Agence3");
 
