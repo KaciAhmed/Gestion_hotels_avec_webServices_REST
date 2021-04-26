@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace Agence
 {
@@ -37,7 +40,7 @@ namespace Agence
                 baseUrlHotelsChoisis = new List<string>();
                 foreach (KeyValuePair<string, List<string>> hotel in hotelsPartenaires)
                 {
-                    if (hotel.Value[0].Equals(ville.Trim()) && hotel.Value[1].Equals(nbEtoile.Trim()))
+                    if (hotel.Value[0].Equals(ville.Trim()) && (hotel.Value[1].CompareTo(nbEtoile.Trim()) >= 0))
                     {
                         baseUrlHotelsChoisis.Add(hotel.Key);
                     }
@@ -45,7 +48,18 @@ namespace Agence
                 }
 
                 offres = new List<Offre>();
-                route = "offres" + "/" + LoginAgence + "/" + mdp + "/" + dateArrivee + "/" + dateDepart + "/" + nombrePersonnes;
+
+                bool estImage = true;
+                estImage = bool.Parse(saisie("l'image"));
+                if (estImage)
+                {
+                    route = "offresAvecImages" + "/" + LoginAgence + "/" + mdp + "/" + dateArrivee + "/" + dateDepart + "/" + nombrePersonnes;
+                }
+                else
+                {
+                    route = "offres" + "/" + LoginAgence + "/" + mdp + "/" + dateArrivee + "/" + dateDepart + "/" + nombrePersonnes;
+
+                }
                 foreach (string baseUrlHotel in baseUrlHotelsChoisis)
                 {
                     offres = clientRest.makeRequestGetOffres(baseUrlHotel, route);
@@ -99,8 +113,8 @@ namespace Agence
         {
             foreach (Offre offre in offres)
             {
-                // Image image = byteArrayToImage(offre.Image);
-                // image.Save(offre.Identifiant + "_chambre.png", ImageFormat.Png);
+                Image image = byteArrayToImage(offre.Image);
+                image.Save(offre.Identifiant + "_chambre.png", ImageFormat.Png);
                 Console.WriteLine(offre);
             }
         }
@@ -134,14 +148,14 @@ namespace Agence
                 Console.WriteLine(resultat);
             }
         }
-        /* public static Image byteArrayToImage(byte[] bytesArr)
-         {
-             using (MemoryStream memstr = new MemoryStream(bytesArr))
-             {
-                 Image img = Image.FromStream(memstr);
-                 return img;
-             }
-         }
-        */
+        public static Image byteArrayToImage(byte[] bytesArr)
+        {
+            using (MemoryStream memstr = new MemoryStream(bytesArr))
+            {
+                Image img = Image.FromStream(memstr);
+                return img;
+            }
+        }
+
     }
 }

@@ -40,6 +40,21 @@ namespace HotelRest.Controllers
             return offres;
         }
 
+        // GET: api/Hotel/Offres/{login}/{password}/{nbPersonne}
+        [Route("offresAvecImages/{loginAgence}/{mdp}/{dateDebut}/{dateFin}/{nbPersonne}")]
+        public IQueryable<Offre> GetOffresAvecImages(string loginAgence, string mdp, string dateDebut, string dateFin, string nbPersonne)
+        {
+            bool checkConnexion = false;
+            IQueryable<Offre> offres = null;
+            checkConnexion = verifierConnexionAgence(loginAgence, mdp);
+            if (checkConnexion)
+            {
+                List<Chambre> chambresDisponible = getChambresDisponible(dateDebut, int.Parse(nbPersonne));
+                offres = creerOffresAvecImages(chambresDisponible);
+            }
+            return offres;
+        }
+
         [HttpGet]
         [Route("reservation")]
         public string GetReservation(string loginAgence, string mdp, string identifiant, string dateArrivee, string dateDepart, int nombrePersonnes, string nomClient, string prenomClient, string infoCarteCreditClient)
@@ -120,6 +135,22 @@ namespace HotelRest.Controllers
             {
                 prix = chambre.PrixDeBase * (1 - monAgenceEnTraitement.PourcentageReduction);
                 offre = new Offre() { Identifiant = idHotel + "_" + chambre.Numero, TypeChambre = chambre.TypeChambre, DateDisponibilite = chambre.DateDisponibilite, Prix = prix };
+                offres.Add(offre);
+            }
+            return offres.AsQueryable<Offre>();
+        }
+
+        private IQueryable<Offre> creerOffresAvecImages(List<Chambre> chambres)
+        {
+            ICollection<Offre> offres = new List<Offre>();
+            Offre offre = null;
+            double prix;
+            int idHotel = 1;
+            foreach (Chambre chambre in chambres)
+            {
+                prix = chambre.PrixDeBase * (1 - monAgenceEnTraitement.PourcentageReduction);
+                var image = chambre.StreamToByteArray(chambre.UrlImage);
+                offre = new Offre() { Identifiant = idHotel + "_" + chambre.Numero, TypeChambre = chambre.TypeChambre, DateDisponibilite = chambre.DateDisponibilite, Prix = prix, Image = image };
                 offres.Add(offre);
             }
             return offres.AsQueryable<Offre>();

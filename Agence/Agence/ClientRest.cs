@@ -54,9 +54,7 @@ namespace Agence
                     throw new ApplicationException("error code : " + result.StatusCode);
                 }
             }
-
         }
-
         internal string makeRequestPostReservation(string baseAddress, string endpointAddress)
         {
             var request = (HttpWebRequest)WebRequest.Create(baseAddress + endpointAddress);

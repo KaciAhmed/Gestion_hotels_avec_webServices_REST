@@ -5,7 +5,7 @@ namespace HotelRest.Controllers
 {
     public class MaDatabase
     {
-        private const string CHEMIN_DOSSIER_ASSETS = @"C:\Users\DELL\source\repos\gestionHotelsAvecRest\gestionhotelsavecwebservicesrest\assets";
+        private const string CHEMIN_DOSSIER_ASSETS = @"E:\gitlab.com\gestionhotelsavecwebservicesrest\assets\";
 
         public ICollection<Adresse> Adresses { get; set; }
         public ICollection<Client> Clients { get; set; }
