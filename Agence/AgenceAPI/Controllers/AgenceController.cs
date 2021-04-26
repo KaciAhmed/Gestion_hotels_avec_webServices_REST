@@ -8,6 +8,7 @@ namespace AgenceAPI.Controllers
     [RoutePrefix("api/agences")]
     public class AgenceController : ApiController
     {
+        private readonly static string nomAgence = "Agence 1 Confluence";
         private readonly static string LoginAgence = "LoginAgence1";
         private readonly static string mdp = "123";
         private static ClientRest clientRest = new ClientRest();
@@ -15,6 +16,12 @@ namespace AgenceAPI.Controllers
             { @"https://localhost:44365/api/Hotels/", new List<string>() { "Montpellier", "5" } }
         };
         private List<string> baseUrlHotelsChoisis;
+
+        [Route("name")]
+        public string GetName()
+        {
+            return nomAgence;
+        }
 
         // GET: api/Hotel/Offres/{login}/{password}/{nbPersonne}
         [Route("offres/{ville}/{dateDebut}/{dateFin}/{nbPersonne}/{nombreEtoile}")]
@@ -38,6 +45,10 @@ namespace AgenceAPI.Controllers
             foreach (string baseUrlHotel in baseUrlHotelsChoisis)
             {
                 offres.AddRange(clientRest.makeRequestGetOffresComparateur(baseUrlHotel, route));
+            }
+            foreach (OffreComparateur o in offres)
+            {
+                o.AgenceNom = nomAgence;
             }
             return offres.AsQueryable();
         }

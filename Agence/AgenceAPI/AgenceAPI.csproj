@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="OffreComparateur.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValuesController1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
