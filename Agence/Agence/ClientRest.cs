@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace Agence
 {
@@ -15,16 +13,16 @@ namespace Agence
         PUT,
         DELETE
     }
-    class ClientRest
+
+    internal class ClientRest
     {
-       
+
         public httpVerbs HttpMethod { get; set; }
 
         public ClientRest()
         {
-           
-        }
 
+        }
         public string makeRequestGET(string EndPointReq)
         {
             HttpMethod = httpVerbs.GET;
@@ -52,6 +50,39 @@ namespace Agence
             }
 
             return strResponseValue;
+        }
+        public ICollection<Offre> makeRequestGetOffres(string baseAddress, string endpointAddress)
+        {
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseAddress);
+                //HTTP GET
+                var responseTask = client.GetAsync(endpointAddress);
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+
+                    var readTask = result.Content.ReadAsAsync<Offre[]>();
+                    readTask.Wait();
+
+                    var offres = readTask.Result;
+
+                    foreach (var offre in offres)
+                    {
+                        Console.WriteLine(offre);
+                    }
+                    return offres;
+                }
+                else
+                {
+                    throw new ApplicationException("error code : " + result.StatusCode);
+                }
+            }
+
         }
     }
 }
