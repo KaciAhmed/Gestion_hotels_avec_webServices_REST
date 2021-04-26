@@ -93,7 +93,20 @@ namespace HotelRest.Controllers
 
             return reservation.Reference.ToString();
         }
-
+        // GET: api/Hotel/Offres/{login}/{password}/{nbPersonne}
+        [Route("offresComparateur/{loginAgence}/{mdp}/{dateDebut}/{dateFin}/{nbPersonne}")]
+        public IQueryable<OffreComparateur> GetOffresComparateur(string loginAgence, string mdp, string dateDebut, string dateFin, string nbPersonne)
+        {
+            bool checkConnexion = false;
+            IQueryable<OffreComparateur> offres = null;
+            checkConnexion = verifierConnexionAgence(loginAgence, mdp);
+            if (checkConnexion)
+            {
+                List<Chambre> chambresDisponible = getChambresDisponible(dateDebut, int.Parse(nbPersonne));
+                offres = creerOffresComparateur(chambresDisponible);
+            }
+            return offres;
+        }
         private bool verifierConnexionAgence(string login, string mdp)
         {
             List<Agence> agences = new List<Agence>(database.Agences);
@@ -155,6 +168,22 @@ namespace HotelRest.Controllers
             }
             return offres.AsQueryable<Offre>();
         }
+        private IQueryable<OffreComparateur> creerOffresComparateur(List<Chambre> chambres)
+        {
+            ICollection<OffreComparateur> offres = new List<OffreComparateur>();
+            OffreComparateur offre = null;
+            var chambre = chambres[0];
+            double prix;
+
+            prix = chambre.PrixDeBase * (1 - monAgenceEnTraitement.PourcentageReduction);
+            var hotelCourant = database.Hotels.AsQueryable<Hotel>().Where(hotel => 1 == hotel.HotelId).FirstOrDefault();
+
+            offre = new OffreComparateur() { Nom = hotelCourant.Nom, Adresse = hotelCourant.Adresse.ToString(), NombreEtoile = hotelCourant.NbEtoile, NombreLit = chambre.TypeChambre.NbLits, Prix = prix };
+            offres.Add(offre);
+
+            return offres.AsQueryable();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

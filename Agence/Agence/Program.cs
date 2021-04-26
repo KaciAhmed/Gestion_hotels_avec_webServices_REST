@@ -58,7 +58,6 @@ namespace Agence
                 else
                 {
                     route = "offres" + "/" + LoginAgence + "/" + mdp + "/" + dateArrivee + "/" + dateDepart + "/" + nombrePersonnes;
-
                 }
                 foreach (string baseUrlHotel in baseUrlHotelsChoisis)
                 {

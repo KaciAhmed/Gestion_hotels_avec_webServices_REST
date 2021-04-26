@@ -27,5 +27,10 @@
             Hotel = hotel;
             Agence = agence;
         }
+
+        public override string ToString()
+        {
+            return Numero.ToString() + ", " + Rue.ToString() + ", " + Pays.ToString();
+        }
     }
 }

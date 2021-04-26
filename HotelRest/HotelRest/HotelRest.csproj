@@ -113,6 +113,7 @@
     <Compile Include="Models\Chambre.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Hotel.cs" />
+    <Compile Include="Models\OffreComparateur.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\TypeChambre.cs" />
     <Compile Include="Offre.cs" />
