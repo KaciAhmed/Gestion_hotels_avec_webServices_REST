@@ -23,34 +23,6 @@ namespace Agence
         {
 
         }
-        public string makeRequestGET(string EndPointReq)
-        {
-            HttpMethod = httpVerbs.GET;
-            string strResponseValue = string.Empty;
-
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(EndPointReq);
-            req.Method = HttpMethod.ToString();
-
-            using (HttpWebResponse rep = (HttpWebResponse)req.GetResponse())
-            {
-                if (rep.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new ApplicationException("error code : " + rep.StatusCode);
-                }
-                using (Stream responseStream = rep.GetResponseStream())
-                {
-                    if (responseStream != null)
-                    {
-                        using (StreamReader reader = new StreamReader(responseStream))
-                        {
-                            strResponseValue = reader.ReadToEnd();
-                        }
-                    }
-                }
-            }
-
-            return strResponseValue;
-        }
         public ICollection<Offre> makeRequestGetOffres(string baseAddress, string endpointAddress)
         {
 
@@ -83,6 +55,29 @@ namespace Agence
                 }
             }
 
+        }
+
+        internal string makeRequestPostReservation(string baseAddress, string endpointAddress)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(baseAddress + endpointAddress);
+
+            request.Method = "GET";
+            request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+
+            var content = string.Empty;
+            using (var response = (HttpWebResponse)request.GetResponse())
+            {
+                using (var stream = response.GetResponseStream())
+                {
+                    using (var sr = new StreamReader(stream))
+                    {
+                        content = sr.ReadToEnd();
+                    }
+                }
+            }
+
+            String resultat = content.ToString();
+            return resultat;
         }
     }
 }

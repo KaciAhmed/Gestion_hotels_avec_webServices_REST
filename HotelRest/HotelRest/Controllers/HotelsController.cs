@@ -11,7 +11,7 @@ using System.Web.Http.Description;
 
 namespace HotelRest.Controllers
 {
-    [RoutePrefix("api/Hotels")]
+    [RoutePrefix("api/hotels")]
     public class HotelsController : ApiController
     {
         private HotelRestContext db = new HotelRestContext();
@@ -26,12 +26,12 @@ namespace HotelRest.Controllers
         }
 
         // GET: api/Hotel/Offres/{login}/{password}/{nbPersonne}
-        [Route("offres/{LoginAgence}/{mdp}/{dateDebut}/{dateFin}/{nbPersonne}")]
-        public IQueryable<Offre> GetOffres(string LoginAgence, string mdp, string dateDebut, string dateFin, string nbPersonne)
+        [Route("offres/{loginAgence}/{mdp}/{dateDebut}/{dateFin}/{nbPersonne}")]
+        public IQueryable<Offre> GetOffres(string loginAgence, string mdp, string dateDebut, string dateFin, string nbPersonne)
         {
             bool checkConnexion = false;
             IQueryable<Offre> offres = null;
-            checkConnexion = verifierConnexionAgence(LoginAgence, mdp);
+            checkConnexion = verifierConnexionAgence(loginAgence, mdp);
             if (checkConnexion)
             {
                 List<Chambre> chambresDisponible = getChambresDisponible(dateDebut, int.Parse(nbPersonne));
@@ -39,6 +39,46 @@ namespace HotelRest.Controllers
             }
             return offres;
         }
+
+        [HttpGet]
+        [Route("reservation")]
+        public string GetReservation(string loginAgence, string mdp, string identifiant, string dateArrivee, string dateDepart, int nombrePersonnes, string nomClient, string prenomClient, string infoCarteCreditClient)
+        {
+            var random = new Random();
+            var reservationId = database.Reservations.Last().ReservationId + 1;
+
+            var agence = database.Agences.Where(ag => ag.Login == loginAgence && ag.MotDePasse == mdp).First();
+
+            var chambreId = int.Parse(identifiant.Split('_')[1]);
+            var chambre = database.Chambres.Where(c => c.ChambreId == chambreId).First();
+
+            var clientId = database.Clients.Last().ClientId + 1;
+            var client = new Client() { ClientId = clientId, Nom = nomClient, Prenom = prenomClient };
+
+            var reservation = new Reservation()
+            {
+                ReservationId = (reservationId),
+                Agence = agence,
+                DateDebut = dateArrivee,
+                DateFin = dateDepart,
+                InformationCarteCredit = infoCarteCreditClient,
+                NbPersonne = nombrePersonnes,
+                Reference = "#" + random.Next(1000, 10000),
+                Chambre = chambre,
+                Client = client,
+            };
+
+            database.Reservations.Add(reservation);
+
+            database.Clients.Add(client);
+
+            var res = new List<Reservation>();
+            res.Add(reservation);
+
+
+            return reservation.Reference.ToString();
+        }
+
         private bool verifierConnexionAgence(string login, string mdp)
         {
             List<Agence> agences = new List<Agence>(database.Agences);

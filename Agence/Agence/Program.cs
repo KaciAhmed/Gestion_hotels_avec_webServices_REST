@@ -15,14 +15,15 @@ namespace Agence
             string dateDepart;
             int nombrePersonnes;
             string choix = "-1";
-            string offre;
+            Offre offre;
             string nomClient;
             string prenomClient;
             string infoCarteCreditClient;
             string nbEtoile;
             string ville;
+            string resultatReservation;
             ICollection<Offre> offres;
-            ICollection<string> baseUrlHotelsChoisis;
+            List<string> baseUrlHotelsChoisis;
             string route;
             Dictionary<string, List<string>> hotelsPartenaires = new Dictionary<string, List<string>>();
             hotelsPartenaires.Add(@"https://localhost:44365/api/Hotels/", new List<string>() { "Montpellier", "5" });
@@ -65,9 +66,21 @@ namespace Agence
                         offre = getOffre(choix, offres);
                     } while (offre == null);
 
-                    //  resultatReservation = effectuerReservation(LoginAgence, mdp, offre.Identifiant, dateArrivee, dateDepart, nombrePersonnes, nomClient, prenomClient, infoCarteCreditClient);
+                    route = $"reservation?loginAgence={LoginAgence}" +
+                        $"&mdp={mdp}" +
+                        $"&identifiant={offre.Identifiant}" +
+                        $"&dateArrivee={dateArrivee}" +
+                        $"&dateDepart={dateDepart}" +
+                        $"&nombrePersonnes={nombrePersonnes}" +
+                        $"&nomClient={nomClient}" +
+                        $"&prenomClient={prenomClient}" +
+                        $"&infoCarteCreditClient={infoCarteCreditClient}";
 
-                    // afficherResultatReservation(resultatReservation);
+                    int hotelID = int.Parse(offre.Identifiant.Split('_')[0]);
+
+                    resultatReservation = clientRest.makeRequestPostReservation(baseUrlHotelsChoisis[hotelID - 1], route);
+                    afficherResultatReservation(resultatReservation);
+
 
                     choix = saisie("voulez effectuer une autre réservation (1 = oui / -1 = non)");
                 }
@@ -81,15 +94,7 @@ namespace Agence
             string res = Console.ReadLine();
             return res;
         }
-        /* public static Image byteArrayToImage(byte[] bytesArr)
-         {
-             using (MemoryStream memstr = new MemoryStream(bytesArr))
-             {
-                 Image img = Image.FromStream(memstr);
-                 return img;
-             }
-         }
-        */
+
         public static void afficherOffres(ICollection<Offre> offres)
         {
             foreach (Offre offre in offres)
@@ -98,6 +103,24 @@ namespace Agence
                 // image.Save(offre.Identifiant + "_chambre.png", ImageFormat.Png);
                 Console.WriteLine(offre);
             }
+        }
+
+        public static Offre getOffre(String id, ICollection<Offre> offres)
+        {
+            foreach (Offre offre in offres)
+            {
+                if (offre.Identifiant.Equals(id))
+                {
+                    return offre;
+                }
+            }
+            return null;
+        }
+
+        public static string effectuerReservation(string LoginAgence, string mdp, string identifiantOffre, String dateDebut, String dateFin, int nombrePersonnes, string nomClient, string prenomClient, string infoCarteCreditClient)
+        {
+
+            return null;
         }
         private static void afficherResultatReservation(String resultat)
         {
@@ -111,25 +134,14 @@ namespace Agence
                 Console.WriteLine(resultat);
             }
         }
-        public static string getOffre(String id, ICollection<Offre> offres)
-        {
-            /*  foreach (string offre in offres)
-              {
-                  if (offre.Identifiant.Equals(id))
-                  {
-                      return offre;
-                  }
-              }
-
-            */
-            return null;
-        }
-        /*
-         public static string effectuerReservation(string LoginAgence, string mdp, string identifiantOffre, String dateDebut, String dateFin, int nombrePersonnes, string nomClient, string prenomClient, string infoCarteCreditClient)
+        /* public static Image byteArrayToImage(byte[] bytesArr)
          {
-             return serviceReservation.creerReservation(LoginAgence, mdp, identifiantOffre, dateDebut, dateFin, nombrePersonnes, nomClient, prenomClient, infoCarteCreditClient);
+             using (MemoryStream memstr = new MemoryStream(bytesArr))
+             {
+                 Image img = Image.FromStream(memstr);
+                 return img;
+             }
          }
-            */
-
+        */
     }
 }
