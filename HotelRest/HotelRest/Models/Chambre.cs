@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 
 namespace HotelRest.Models
 {
@@ -12,16 +10,16 @@ namespace HotelRest.Models
         public int Numero { get; set; }
         public bool EstLibre { get; set; }
         public string DateDisponibilite { get; set; }
-        public float PrixDeBase { get; set;}
+        public float PrixDeBase { get; set; }
         public string UrlImage { get; set; }
         public byte[] Image { get; set; }
-        public  TypeChambre TypeChambre { get; set; }
-        public  Hotel Hotel { get; set; }
-        public  ICollection<Reservation> Reservations { get; set; }
+        public TypeChambre TypeChambre { get; set; }
+        public Hotel Hotel { get; set; }
+        public ICollection<Reservation> Reservations { get; set; }
 
         public Chambre()
         {
-            this.Reservations = new List<Reservation>();
+            Reservations = new List<Reservation>();
         }
 
         public Chambre(int chambreId, int numero, bool estLibre, string dateDisponibilite, float prixDeBase, string urlImage, byte[] image, TypeChambre typeChambre, Hotel hotel, ICollection<Reservation> reservations)

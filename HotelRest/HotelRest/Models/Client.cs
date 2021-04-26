@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace HotelRest.Models
 {
@@ -10,10 +7,10 @@ namespace HotelRest.Models
         public int ClientId { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
-        public  ICollection<Reservation> Reservations { get; set; }
+        public ICollection<Reservation> Reservations { get; set; }
         public Client()
         {
-            this.Reservations = new List<Reservation>();
+            Reservations = new List<Reservation>();
         }
 
         public Client(int clientId, string nom, string prenom, ICollection<Reservation> reservations)

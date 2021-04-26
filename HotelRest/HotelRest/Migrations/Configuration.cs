@@ -1,11 +1,8 @@
 namespace HotelRest.Migrations
 {
     using HotelRest.Models;
-    using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<HotelRest.Data.HotelRestContext>
     {
@@ -133,16 +130,16 @@ namespace HotelRest.Migrations
 
             ch5.Reservations.Add(r1);
             ch5.Reservations.Add(r2);
-            
- 
 
-          context.TypeChambres.AddOrUpdate(new TypeChambre[] { t1, t2, t3 });
-          context.Adresses.AddOrUpdate(new Adresse[] { a1, a2, a3, a4, a5, a6 });
-          context.Clients.AddOrUpdate(new Client[] { c1, c2 });
-           context.Agences.AddOrUpdate(new Agence[] { ag1, ag2, ag3 });
+
+
+            context.TypeChambres.AddOrUpdate(new TypeChambre[] { t1, t2, t3 });
+            context.Adresses.AddOrUpdate(new Adresse[] { a1, a2, a3, a4, a5, a6 });
+            context.Clients.AddOrUpdate(new Client[] { c1, c2 });
+            context.Agences.AddOrUpdate(new Agence[] { ag1, ag2, ag3 });
             context.Hotels.AddOrUpdate(new Hotel[] { h1, h2, h3 });
             context.Chambres.AddOrUpdate(new Chambre[] { ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9, ch10, ch11, ch12, ch13, ch14, ch15, ch16, ch17, ch18, ch19, ch20, ch21, ch22, ch23, ch24, ch25, ch26, ch27 });
-           context.Reservations.AddOrUpdate(new Reservation[] { r1, r2 });
+            context.Reservations.AddOrUpdate(new Reservation[] { r1, r2 });
 
         }
     }

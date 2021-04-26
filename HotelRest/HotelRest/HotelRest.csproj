@@ -96,6 +96,7 @@
     <Compile Include="Controllers\ChambresController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
+    <Compile Include="Controllers\MaDatabase.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\TypeChambresController.cs" />
     <Compile Include="Data\HotelRestContext.cs" />
