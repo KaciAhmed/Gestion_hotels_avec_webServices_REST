@@ -23,7 +23,7 @@
 
         public override string ToString()
         {
-            return "Identifiant = " + Identifiant + ", " + TypeChambre + ", " + "DateDisponibilite = " + DateDisponibilite + "," + "Prix = " + Prix + "," + "Image = " + Image;
+            return "Identifiant = " + Identifiant + ", " + TypeChambre + ", " + "DateDisponibilite = " + DateDisponibilite + "," + "Prix = " + Prix;
         }
     }
 }

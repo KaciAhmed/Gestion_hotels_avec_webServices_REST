@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 
 namespace Agence
@@ -49,16 +48,9 @@ namespace Agence
 
                 offres = new List<Offre>();
 
-                bool estImage = true;
-                estImage = bool.Parse(saisie("l'image"));
-                if (estImage)
-                {
-                    route = "offresAvecImages" + "/" + LoginAgence + "/" + mdp + "/" + dateArrivee + "/" + dateDepart + "/" + nombrePersonnes;
-                }
-                else
-                {
-                    route = "offres" + "/" + LoginAgence + "/" + mdp + "/" + dateArrivee + "/" + dateDepart + "/" + nombrePersonnes;
-                }
+
+                route = "offres" + "/" + LoginAgence + "/" + mdp + "/" + dateArrivee + "/" + dateDepart + "/" + nombrePersonnes;
+
                 foreach (string baseUrlHotel in baseUrlHotelsChoisis)
                 {
                     offres = clientRest.makeRequestGetOffres(baseUrlHotel, route);
@@ -112,8 +104,6 @@ namespace Agence
         {
             foreach (Offre offre in offres)
             {
-                Image image = byteArrayToImage(offre.Image);
-                image.Save(offre.Identifiant + "_chambre.png", ImageFormat.Png);
                 Console.WriteLine(offre);
             }
         }
@@ -130,20 +120,18 @@ namespace Agence
             return null;
         }
 
-        public static string effectuerReservation(string LoginAgence, string mdp, string identifiantOffre, String dateDebut, String dateFin, int nombrePersonnes, string nomClient, string prenomClient, string infoCarteCreditClient)
-        {
 
-            return null;
-        }
         private static void afficherResultatReservation(String resultat)
         {
-            if (resultat.StartsWith("#"))
+
+            if (resultat.StartsWith("\"#"))
             {
                 Console.WriteLine("Réservation réussi.");
                 Console.WriteLine("La référence de votre réservation est :" + resultat);
             }
             else
             {
+
                 Console.WriteLine(resultat);
             }
         }

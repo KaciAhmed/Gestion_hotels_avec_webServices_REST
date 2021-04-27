@@ -40,21 +40,6 @@ namespace HotelRest.Controllers
             return offres;
         }
 
-        // GET: api/Hotel/Offres/{login}/{password}/{nbPersonne}
-        [Route("offresAvecImages/{loginAgence}/{mdp}/{dateDebut}/{dateFin}/{nbPersonne}")]
-        public IQueryable<Offre> GetOffresAvecImages(string loginAgence, string mdp, string dateDebut, string dateFin, string nbPersonne)
-        {
-            bool checkConnexion = false;
-            IQueryable<Offre> offres = null;
-            checkConnexion = verifierConnexionAgence(loginAgence, mdp);
-            if (checkConnexion)
-            {
-                List<Chambre> chambresDisponible = getChambresDisponible(dateDebut, int.Parse(nbPersonne));
-                offres = creerOffresAvecImages(chambresDisponible);
-            }
-            return offres;
-        }
-
         [HttpGet]
         [Route("reservation")]
         public string GetReservation(string loginAgence, string mdp, string identifiant, string dateArrivee, string dateDepart, int nombrePersonnes, string nomClient, string prenomClient, string infoCarteCreditClient)
@@ -64,15 +49,15 @@ namespace HotelRest.Controllers
 
             var agence = database.Agences.Where(ag => ag.Login == loginAgence && ag.MotDePasse == mdp).First();
 
-            var chambreId = int.Parse(identifiant.Split('_')[1]);
-            var chambre = database.Chambres.Where(c => c.ChambreId == chambreId).First();
+            var numeroChambre = int.Parse(identifiant.Split('_')[1]);
+            var chambre = database.Chambres.Where(c => c.Numero == numeroChambre).First();
 
             var clientId = database.Clients.Last().ClientId + 1;
             var client = new Client() { ClientId = clientId, Nom = nomClient, Prenom = prenomClient };
 
             var reservation = new Reservation()
             {
-                ReservationId = (reservationId),
+                ReservationId = reservationId,
                 Agence = agence,
                 DateDebut = dateArrivee,
                 DateFin = dateDepart,
@@ -87,26 +72,9 @@ namespace HotelRest.Controllers
 
             database.Clients.Add(client);
 
-            var res = new List<Reservation>();
-            res.Add(reservation);
-
-
             return reservation.Reference.ToString();
         }
-        // GET: api/Hotel/Offres/{login}/{password}/{nbPersonne}
-        [Route("offresComparateur/{loginAgence}/{mdp}/{dateDebut}/{dateFin}/{nbPersonne}")]
-        public IQueryable<OffreComparateur> GetOffresComparateur(string loginAgence, string mdp, string dateDebut, string dateFin, string nbPersonne)
-        {
-            bool checkConnexion = false;
-            IQueryable<OffreComparateur> offres = null;
-            checkConnexion = verifierConnexionAgence(loginAgence, mdp);
-            if (checkConnexion)
-            {
-                List<Chambre> chambresDisponible = getChambresDisponible(dateDebut, int.Parse(nbPersonne));
-                offres = creerOffresComparateur(chambresDisponible);
-            }
-            return offres;
-        }
+
         private bool verifierConnexionAgence(string login, string mdp)
         {
             List<Agence> agences = new List<Agence>(database.Agences);
@@ -125,8 +93,8 @@ namespace HotelRest.Controllers
         {
             DateTime dateDebutTemp = DateTime.ParseExact(dateDebut, "dd-MM-yyyy", new CultureInfo("fr-FR", false));
             DateTime dateDisponibilte;
-            List<Chambre> chambres = new List<Chambre>(database.Chambres);
-
+            Hotel monHotel = database.Hotels.AsQueryable<Hotel>().Where(hotel => 1 == hotel.HotelId).First();
+            List<Chambre> chambres = new List<Chambre>(monHotel.Chambres);
             List<Chambre> chambresDisponible = new List<Chambre>();
             foreach (Chambre chambre in chambres)
             {
@@ -152,38 +120,6 @@ namespace HotelRest.Controllers
             }
             return offres.AsQueryable<Offre>();
         }
-
-        private IQueryable<Offre> creerOffresAvecImages(List<Chambre> chambres)
-        {
-            ICollection<Offre> offres = new List<Offre>();
-            Offre offre = null;
-            double prix;
-            int idHotel = 1;
-            foreach (Chambre chambre in chambres)
-            {
-                prix = chambre.PrixDeBase * (1 - monAgenceEnTraitement.PourcentageReduction);
-                var image = chambre.StreamToByteArray(chambre.UrlImage);
-                offre = new Offre() { Identifiant = idHotel + "_" + chambre.Numero, TypeChambre = chambre.TypeChambre, DateDisponibilite = chambre.DateDisponibilite, Prix = prix, Image = image };
-                offres.Add(offre);
-            }
-            return offres.AsQueryable<Offre>();
-        }
-        private IQueryable<OffreComparateur> creerOffresComparateur(List<Chambre> chambres)
-        {
-            ICollection<OffreComparateur> offres = new List<OffreComparateur>();
-            OffreComparateur offre = null;
-            var chambre = chambres[0];
-            double prix;
-
-            prix = chambre.PrixDeBase * (1 - monAgenceEnTraitement.PourcentageReduction);
-            var hotelCourant = database.Hotels.AsQueryable<Hotel>().Where(hotel => 1 == hotel.HotelId).FirstOrDefault();
-
-            offre = new OffreComparateur() { Nom = hotelCourant.Nom, Adresse = hotelCourant.Adresse.ToString(), NombreEtoile = hotelCourant.NbEtoile, NombreLit = chambre.TypeChambre.NbLits, Prix = prix };
-            offres.Add(offre);
-
-            return offres.AsQueryable();
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
