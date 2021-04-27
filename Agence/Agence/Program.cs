@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 
 namespace Agence
@@ -48,15 +49,24 @@ namespace Agence
 
                 offres = new List<Offre>();
 
-
-                route = "offres" + "/" + LoginAgence + "/" + mdp + "/" + dateArrivee + "/" + dateDepart + "/" + nombrePersonnes;
+                bool avecImage = true;
+                Console.WriteLine("voulez vous obtenir l'image");
+                avecImage = bool.Parse(saisie("Reponse (true/false)"));
+                if (avecImage)
+                {
+                    route = "offresAvecImages" + "/" + LoginAgence + "/" + mdp + "/" + dateArrivee + "/" + dateDepart + "/" + nombrePersonnes;
+                }
+                else
+                {
+                    route = "offres" + "/" + LoginAgence + "/" + mdp + "/" + dateArrivee + "/" + dateDepart + "/" + nombrePersonnes;
+                }
 
                 foreach (string baseUrlHotel in baseUrlHotelsChoisis)
                 {
                     offres = clientRest.makeRequestGetOffres(baseUrlHotel, route);
                 }
 
-                afficherOffres(offres);
+                afficherOffres(offres,avecImage);
 
                 choix = saisie("voulez vous continuer (1 = oui / -1 = non)");
                 if (!choix.Equals(-1))
@@ -100,10 +110,15 @@ namespace Agence
             return res;
         }
 
-        public static void afficherOffres(ICollection<Offre> offres)
+        public static void afficherOffres(ICollection<Offre> offres,bool avecImage)
         {
             foreach (Offre offre in offres)
             {
+                if (avecImage)
+                {
+                    Image image = byteArrayToImage(offre.Image);
+                    image.Save(offre.Identifiant + "_chambre.png", ImageFormat.Png);
+                }
                 Console.WriteLine(offre);
             }
         }
@@ -131,7 +146,6 @@ namespace Agence
             }
             else
             {
-
                 Console.WriteLine(resultat);
             }
         }
