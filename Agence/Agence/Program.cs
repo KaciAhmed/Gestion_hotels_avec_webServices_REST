@@ -66,7 +66,7 @@ namespace Agence
                     offres = clientRest.makeRequestGetOffres(baseUrlHotel, route);
                 }
 
-                afficherOffres(offres,avecImage);
+                afficherOffres(offres, avecImage);
 
                 choix = saisie("voulez vous continuer (1 = oui / -1 = non)");
                 if (!choix.Equals(-1))
@@ -110,7 +110,7 @@ namespace Agence
             return res;
         }
 
-        public static void afficherOffres(ICollection<Offre> offres,bool avecImage)
+        public static void afficherOffres(ICollection<Offre> offres, bool avecImage)
         {
             foreach (Offre offre in offres)
             {

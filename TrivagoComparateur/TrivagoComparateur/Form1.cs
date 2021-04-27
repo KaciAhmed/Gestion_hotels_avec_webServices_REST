@@ -10,9 +10,10 @@ namespace TrivagoComparateur
 
         private static ClientRest clientRest = new ClientRest();
         private Dictionary<string, List<string>> agencePartenaires = new Dictionary<string, List<string>>() {
-            { @"https://localhost:44324/api/Agences/", new List<string>() { "Montpellier", "5" } }
+            { @"https://localhost:44324/api/Agences/", new List<string>() { "Montpellier", "5" } },
+             { @"https://localhost:44341/api/Agences/", new List<string>() { "Montpellier", "5" } }
         };
-        private List<string> baseUrlHotelsChoisis;
+        private List<string> baseUrlAgencesChoisis;
         public Form1()
         {
             InitializeComponent();
@@ -21,28 +22,33 @@ namespace TrivagoComparateur
         {
             textBoxResultat.Text = "Loading..";
             List<OffreComparateur> offres;
-            baseUrlHotelsChoisis = new List<string>();
+            baseUrlAgencesChoisis = new List<string>();
 
             string route;
-            foreach (KeyValuePair<string, List<string>> hotel in agencePartenaires)
+            foreach (KeyValuePair<string, List<string>> agence in agencePartenaires)
             {
-                if (hotel.Value[0].Equals(textBoxVille.Text.ToString().Trim()) && (hotel.Value[1].CompareTo(textBoxNombreEtoile.Text.ToString()) >= 0))
+                if (agence.Value[0].Equals(textBoxVille.Text.ToString().Trim()) && (agence.Value[1].CompareTo(textBoxNombreEtoile.Text.ToString()) >= 0))
                 {
-                    baseUrlHotelsChoisis.Add(hotel.Key);
+                    baseUrlAgencesChoisis.Add(agence.Key);
                 }
             }
             offres = new List<OffreComparateur>();
             route = "offres" + "/" + textBoxVille.Text.ToString() + "/" + textBoxDateDebut.Text.ToString() + "/" + textBoxDateFin.Text.ToString() + "/" + textBoxNombrePersonne.Text.ToString() + "/" + textBoxNombreEtoile.Text.ToString();
 
-            foreach (string baseUrlHotel in baseUrlHotelsChoisis)
+            foreach (string baseUrlAgence in baseUrlAgencesChoisis)
             {
-                offres.AddRange(clientRest.makeRequestGetOffresComparateur(baseUrlHotel, route));
+                offres.AddRange(clientRest.makeRequestGetOffresComparateur(baseUrlAgence, route));
             }
             textBoxResultat.Text = "";
             foreach (OffreComparateur o in offres)
             {
-                textBoxResultat.Text += o.ToString() + "\n";
+                textBoxResultat.Text += o.ToString() + Environment.NewLine;
             }
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
 
         }
     }
